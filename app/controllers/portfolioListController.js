@@ -26,6 +26,8 @@
     })
 
 
+//AOyREerJIT8iQwL6JX9cWz
+
 
     $scope.addPortfolio = function( new_portfolio ){
       // postRef.child(new_portfolio['name']).push(new_portfolio);
@@ -34,13 +36,33 @@
         date: Firebase.ServerValue.TIMESTAMP,
         description: new_portfolio.description,
         //date: new_portfolio.date,
-        imageurl: new_portfolio.imageurl,
+        imageurl: imageUpped,
         title: new_portfolio.title  
       })
 
       $scope.addPortfolio = {};
     }
 
+    var imageUpped;
+
+    $scope.pickImg = function fileUpload( new_img ){
+      filepicker.setKey("AOyREerJIT8iQwL6JX9cWz");
+
+      filepicker.pick(
+        {
+          mimetypes: ['image/*', 'text/plain'],
+          container: 'window',
+          services:['COMPUTER'],
+        },
+        function(Blob){
+          imageUpped = Blob.url;
+          console.log(imageUpped);
+        },
+        function(FPError){
+          console.log(FPError.toString());
+        }
+      );
+    }
 
     // postRef.set({'vessel1309' : {name: 'vessel1309', title: 'Call of Booty', date: '2013-09-01', description: 'Arrrgh mateys! This be the finest vessel sailing these seas that yer eyes ever laid sight on. Arrrgh.', imageurl: 'images/drunkenPirate_thumb3.png' },
 

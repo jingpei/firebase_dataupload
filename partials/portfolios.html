@@ -22,13 +22,11 @@
         <p class="error" ng-show="message" >{{ message }}</p>
         <input name="title" type="text" placeholder="title" ng-required="true" ng-model="adding_portfolio.title" />
         <p class="error" ng-show="add_portfolio.title.$invalid && add_portfolio.title.$touched">Must enter a title.</p>
-        <input type="text" placeholder="yyyy-mm-dd" ng-required="true" ng-model="adding_portfolio.date" />
-        <p class="error" ng-show="add_portfolio.date.$invalid && add_portfolio.date.$touched">Must enter a date.</p>
         <textarea name="description" placeholder="description" ng-required="true" ng-model="adding_portfolio.description"></textarea>
         <p class="error" ng-show="add_portfolio.description.$invalid && add_portfolio.description.$touched">Must enter a description.</p>
         <input type="text" placeholder="username" ng-required="true" ng-model="adding_portfolio.name" />
         <p class="error" ng-show="add_portfolio.name.$invalid && add_portfolio.name.$touched">Must enter a name.</p>
-        <input type="text" placeholder="imageurl" ng-required="true" ng-model="adding_portfolio.imageurl" />
+        <input type="file" id="file-upload" ng-click="pickImg()" placeholder="imageurl" ng-required="true" />
         <p class="error" ng-show="add_portfolio.imageurl.$invalid && add_portfolio.imageurl.$touched">Must enter an image.</p>
         <button class="btn btn-success" ng-disabled="add_portfolio.$invalid" type="button" ng-click="addPortfolio( adding_portfolio )">Add Portfolio</button>
       </form>
