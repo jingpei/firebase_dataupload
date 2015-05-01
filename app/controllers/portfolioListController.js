@@ -1,16 +1,60 @@
-  portfolioApp.controller("PortfolioListController", function($scope){
+  portfolioApp.controller("PortfolioListController", function($scope, FIREBASE_URL, $firebaseArray, $firebaseObject){
 
-    $scope.portfolios = [
-    {name: 'vessel1309', title: 'Call of Booty', date: '2013-09-01', description: 'Arrrgh mateys! This be the finest vessel sailing these seas that yer eyes ever laid sight on. Arrrgh.', imageurl: 'images/drunkenPirate_thumb3.png' },
+    // var portfolios = [    {name: 'vessel1309', title: 'Call of Booty', date: '2013-09-01', description: 'Arrrgh mateys! This be the finest vessel sailing these seas that yer eyes ever laid sight on. Arrrgh.', imageurl: 'images/drunkenPirate_thumb3.png' },
 
-    {name: 'innocents1404', title: 'The Sack of the Innocents', date: '2014-04-15', description: 'This be a detail of the sacking of the innocents where I played an important role as business analyst and in implementation.', imageurl: 'images/drunkenPirate_thumb2.png' },
+    // {name: 'innocents1404', title: 'The Sack of the Innocents', date: '2014-04-15', description: 'This be a detail of the sacking of the innocents where I played an important role as business analyst and in implementation.', imageurl: 'images/drunkenPirate_thumb2.png' },
 
-    {name: 'firstmate1210', title: 'Pipe and First Mate', date: '2012-10-01', description: 'After a hard day of lootin\' and shootin\' I like to relax with my best mates and tally up the days booty.', imageurl: 'images/drunkenPirate_thumb1.png' }
-    ];
+    // {name: 'firstmate1210', title: 'Pipe and First Mate', date: '2012-10-01', description: 'After a hard day of lootin\' and shootin\' I like to relax with my best mates and tally up the days booty.', imageurl: 'images/drunkenPirate_thumb1.png' }
+    // ];
 
-    $scope.addPortfolio = function( new_portfolio ) {
-      $scope.portfolios.push( new_portfolio );
-      $scope.add_portfolio = {};
-    };
+
+    //points to the particular firebase app
+    //e.g setting the mongodb
+    var ref = new Firebase(FIREBASE_URL)
+    //different "document" e.g. mongo
+    var postRef = ref.child('portfolios');
+
+    $scope.portfolios = $firebaseArray(postRef);
+
+    console.log($scope.portfolios)
+    console.log(postRef.key());
+    
+    postRef.on('value', function(snapshot){
+      console.log(snapshot.val());
+    }, function(errorObject){
+      console.log(err)
+    })
+
+
+
+    $scope.addPortfolio = function( new_portfolio ){
+      // postRef.child(new_portfolio['name']).push(new_portfolio);
+      postRef.push({
+        name: new_portfolio.name,
+        date: Firebase.ServerValue.TIMESTAMP,
+        description: new_portfolio.description,
+        //date: new_portfolio.date,
+        imageurl: new_portfolio.imageurl,
+        title: new_portfolio.title  
+      })
+
+      $scope.addPortfolio = {};
+    }
+
+
+    // postRef.set({'vessel1309' : {name: 'vessel1309', title: 'Call of Booty', date: '2013-09-01', description: 'Arrrgh mateys! This be the finest vessel sailing these seas that yer eyes ever laid sight on. Arrrgh.', imageurl: 'images/drunkenPirate_thumb3.png' },
+
+    // 'innocents1404' : {name: 'innocents1404', title: 'The Sack of the Innocents', date: '2014-04-15', description: 'This be a detail of the sacking of the innocents where I played an important role as business analyst and in implementation.', imageurl: 'images/drunkenPirate_thumb2.png' },
+
+    // 'firstmate1210': {name: 'firstmate1210', title: 'Pipe and First Mate', date: '2012-10-01', description: 'After a hard day of lootin\' and shootin\' I like to relax with my best mates and tally up the days booty.', imageurl: 'images/drunkenPirate_thumb1.png' }})
+    
+    // portfolios.forEach(function(x){
+    //   postRef.child(x['name']).set(x)
+    // })
+
+    // $scope.addPortfolio = function( new_portfolio ) {
+    //   $scope.portfolios.push( new_portfolio );
+    //   $scope.add_portfolio = {};
+    // };
 
   });
